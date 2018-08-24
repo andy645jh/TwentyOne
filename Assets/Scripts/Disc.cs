@@ -38,15 +38,24 @@ public class Disc : MonoBehaviour {
 			if(_isPressDisc){
 				var finalTime = Time.time-_timeInit;
 				var finalDist = Vector3.Distance(transform.position, _initPos);
-				Debug.Log("Final Time: "+finalTime);
-				Debug.Log("Final Dist: "+finalDist);			
+				var dir = transform.position-_initPos;
+				var vel = finalTime / finalDist;
+				_rigi.AddForce(dir.normalized / finalTime * 150);
+				Debug.Log("Vel: "+finalTime);				
 			}
 			_isPressDisc = false;
 		}
 
 		if(_isPressDisc){
 			Debug.DrawRay(ray.origin, ray.direction*100, Color.blue);				
-			transform.position = new Vector3(ray.origin.x,transform.position.y,ray.origin.z);
+			transform.position = new Vector3(ray.origin.x,transform.position.y,ray.origin.z);			
 		}
 	}
+
+	void OnCollisionEnter (Collision col)
+    {
+        if(col.transform.CompareTag("Border")){
+			_isPressDisc = false;
+		}
+    }
 }
