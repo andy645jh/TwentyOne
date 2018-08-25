@@ -10,11 +10,15 @@ public class Disc : MonoBehaviour {
 	private bool _isPressDisc = false;
 	private float _timeInit;
 	private Vector3 _initPos;
+	private Vector3 _restartPos;
+	private float _magnitud =0;
+	private float _vel = 0;
 
 	//private float _timeEnd;
 	void Start () {
 		_rigi = GetComponent<Rigidbody>();
 		_mainCamera = Camera.main;
+		_restartPos = transform.position;
 	}
 	
 	// Update is called once per frame
@@ -39,9 +43,9 @@ public class Disc : MonoBehaviour {
 				var finalTime = Time.time-_timeInit;
 				var finalDist = Vector3.Distance(transform.position, _initPos);
 				var dir = transform.position-_initPos;
-				var vel = finalTime / finalDist;
-				_rigi.AddForce(dir.normalized / finalTime * 150);
-				Debug.Log("Vel: "+finalTime);				
+				var vel = Vector3.ClampMagnitude(dir.normalized / finalTime * 150, 1200);				
+				Debug.Log("Vel: "+vel);
+				_rigi.AddForce(vel);								
 			}
 			_isPressDisc = false;
 		}
@@ -50,12 +54,24 @@ public class Disc : MonoBehaviour {
 			Debug.DrawRay(ray.origin, ray.direction*100, Color.blue);				
 			transform.position = new Vector3(ray.origin.x,transform.position.y,ray.origin.z);			
 		}
+		var tempMag = Vector3.Magnitude(_rigi.velocity);
+		if(tempMag>_magnitud){
+			_magnitud = tempMag;			
+		}
+		//Debug.Log("Vel: "+_magnitud);
 	}
 
 	void OnCollisionEnter (Collision col)
     {
         if(col.transform.CompareTag("Border")){
 			_isPressDisc = false;
+		}
+
+		if(col.transform.CompareTag("Death")){
+			_isPressDisc = false;
+			_rigi.velocity = Vector3.zero;
+			transform.eulerAngles = Vector3.zero;
+			transform.position = _restartPos;
 		}
     }
 }

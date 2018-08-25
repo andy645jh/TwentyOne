@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Disc
   - Border
+  - Death
   layers:
   - Default
   - TransparentFX
