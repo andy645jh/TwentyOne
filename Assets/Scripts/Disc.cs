@@ -68,10 +68,12 @@ public class Disc : MonoBehaviour {
 		}
 
 		if(col.transform.CompareTag("Death")){
+			Debug.Log("Collision");
 			_isPressDisc = false;
+			transform.position = _restartPos;
 			_rigi.velocity = Vector3.zero;
 			transform.eulerAngles = Vector3.zero;
-			transform.position = _restartPos;
+			
 		}
     }
 }
