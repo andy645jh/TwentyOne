@@ -14,15 +14,31 @@ public class Disc : MonoBehaviour {
 	private float _magnitud =0;
 	private float _vel = 0;
 
+	public Vector3 startPos = Vector3.forward*-18;
+	public Vector3 endPos = Vector3.forward*-10;
+
 	//private float _timeEnd;
 	void Start () {
 		_rigi = GetComponent<Rigidbody>();
 		_mainCamera = Camera.main;
 		_restartPos = transform.position;
+		startPos = _mainCamera.transform.position;
 	}
 	
+	private void drawCenterLine(){
+		/*
+		Vector3 posStart = _mainCamera.transform.position;
+		posStart.x = posStart.x -Screen.width/2;
+		posStart.y = -5;
+		Vector3 endPos = new Vector3(posStart.x+Screen.width/2, posStart.y, posStart.z);
+		*/
+		Debug.DrawLine(startPos, endPos, Color.green);
+	}
+
 	// Update is called once per frame
 	void Update () {
+		drawCenterLine();
+
 		if(Input.GetKey(KeyCode.F)){
 			_rigi.AddForce(Vector3.forward*100);
 		}
@@ -33,8 +49,8 @@ public class Disc : MonoBehaviour {
 			{
 				_isPressDisc = true;
 				_timeInit = Time.time;
-				_initPos = transform.position;
-				//Debug.Log("Update: "+_rayHit.point);				
+				_initPos = transform.position;	
+				//Debug.Log("Update: "+_rayHit.point);			
 			}
 		}
 		
