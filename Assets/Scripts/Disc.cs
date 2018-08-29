@@ -16,9 +16,11 @@ public class Disc : MonoBehaviour {
 
 	public Vector3 startPos = Vector3.forward*-18;
 	public Vector3 endPos = Vector3.forward*-10;
+	public Hud hud;
+    private bool _isMoving;
 
-	//private float _timeEnd;
-	void Start () {
+    //private float _timeEnd;
+    void Start () {
 		_rigi = GetComponent<Rigidbody>();
 		_mainCamera = Camera.main;
 		_restartPos = transform.position;
@@ -44,7 +46,7 @@ public class Disc : MonoBehaviour {
 		}
 
 		Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-		if(Input.GetMouseButtonDown(0)){			
+		if(Input.GetMouseButtonDown(0) && !_isMoving){			
 			if (Physics.Raycast(ray.origin, ray.direction*100, out _rayHit, 100) && _rayHit.transform.CompareTag("Disc"))
 			{
 				_isPressDisc = true;
@@ -60,8 +62,11 @@ public class Disc : MonoBehaviour {
 				var finalDist = Vector3.Distance(transform.position, _initPos);
 				var dir = transform.position-_initPos;
 				var vel = Vector3.ClampMagnitude(dir.normalized / finalTime * 150, 1200);				
-				Debug.Log("Vel: "+vel);
-				_rigi.AddForce(vel);								
+				Debug.Log("Distance: "+finalDist);
+				if(finalDist>0.2f){
+					_rigi.AddForce(vel);
+					_isMoving = true;								
+				}				
 			}
 			_isPressDisc = false;
 		}
@@ -75,6 +80,11 @@ public class Disc : MonoBehaviour {
 			_magnitud = tempMag;			
 		}
 		//Debug.Log("Vel: "+_magnitud);
+
+		if(Vector3.Magnitude(_rigi.velocity)==0 && _isMoving){			
+			_isMoving = false;
+			reset();
+		}
 	}
 
 	void OnCollisionEnter (Collision col)
@@ -83,13 +93,30 @@ public class Disc : MonoBehaviour {
 			_isPressDisc = false;
 		}
 
-		if(col.transform.CompareTag("Death")){
-			Debug.Log("Collision");
-			_isPressDisc = false;
-			transform.position = _restartPos;
-			_rigi.velocity = Vector3.zero;
-			transform.eulerAngles = Vector3.zero;
-			
+		if(col.transform.CompareTag("Death")){			
+			reset();		
+		}
+		
+    }
+
+	void reset(){
+		_isPressDisc = false;
+		transform.position = _restartPos;
+		_rigi.velocity = Vector3.zero;
+		transform.eulerAngles = Vector3.zero;	
+	}
+
+	void OnTriggerEnter (Collider col)
+    {    
+		Debug.Log("OnTriggerEnter: "+col.transform);	
+		if(col.transform.name == "point_3"){
+			hud.setPoint3();
+		}
+		else if(col.transform.name == "point_6"){
+			hud.setPoint6();
+		}
+		else if(col.transform.name == "point_9"){
+			hud.setPoint9();
 		}
     }
 }
