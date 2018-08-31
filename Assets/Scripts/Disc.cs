@@ -2,48 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Disc : MonoBehaviour {
+public class Disc : Player {
 
-	private Rigidbody _rigi;
-	private RaycastHit _rayHit;
-	private Camera _mainCamera;
-	private bool _isPressDisc = false;
-	private float _timeInit;
-	private Vector3 _initPos;
-	private Vector3 _restartPos;
-	private float _magnitud =0;
-	private float _vel = 0;
 
-	public Vector3 startPos = Vector3.forward*-18;
-	public Vector3 endPos = Vector3.forward*-10;
-	public Hud hud;
-    private bool _isMoving;
-
-    //private float _timeEnd;
-    void Start () {
+    void Awake()
+	{
 		_rigi = GetComponent<Rigidbody>();
 		_mainCamera = Camera.main;
 		_restartPos = transform.position;
-		startPos = _mainCamera.transform.position;
+		_startPos = _mainCamera.transform.position;
+		gameObject.SetActive(false);
 	}
 	
-	private void drawCenterLine(){
-		/*
-		Vector3 posStart = _mainCamera.transform.position;
-		posStart.x = posStart.x -Screen.width/2;
-		posStart.y = -5;
-		Vector3 endPos = new Vector3(posStart.x+Screen.width/2, posStart.y, posStart.z);
-		*/
-		Debug.DrawLine(startPos, endPos, Color.green);
+	public override void initTurn(){
+		_isTurn= true;
+		Debug.Log("Init");
+		gameObject.SetActive(true);
 	}
 
-	// Update is called once per frame
-	void Update () {
-		drawCenterLine();
-
-		if(Input.GetKey(KeyCode.F)){
-			_rigi.AddForce(Vector3.forward*100);
-		}
+	void Update () {			
+		if(!_isTurn) return;
 
 		Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 		if(Input.GetMouseButtonDown(0) && !_isMoving){			
@@ -100,10 +78,12 @@ public class Disc : MonoBehaviour {
     }
 
 	void reset(){
+		gameObject.SetActive(false);
 		_isPressDisc = false;
 		transform.position = _restartPos;
 		_rigi.velocity = Vector3.zero;
 		transform.eulerAngles = Vector3.zero;	
+		_matchController.changeTurn();
 	}
 
 	void OnTriggerEnter (Collider col)

@@ -8,18 +8,31 @@ public class Hud : MonoBehaviour {
 	public Text point3;
 	public Text point6;
 	public Text point9;
-
+	public MenuController menu;
+	public SelectorController selectorLevel;
+	public MatchController matchController;
 	private float _pointVal3 = 0;
 	private float _pointVal6 = 0;
 	private float _pointVal9 = 0;
 
 	private float _total;
+
 	void Start () {
 		point3.text = "0";
 		point6.text = "0";
 		point9.text = "0";
 	}
 	
+	public void clicStart(){
+		menu.gameObject.SetActive(false);
+		selectorLevel.gameObject.SetActive(true);
+	}	
+
+	public void closeSelector(){
+		selectorLevel.gameObject.SetActive(false);
+		matchController.initGame();
+	}
+
 	public void setPoint3(){
 		_pointVal3 += 3;
 		point3.text = _pointVal3.ToString();
