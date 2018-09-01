@@ -7,5 +7,5 @@ juego sencillo de discos
 * Agregar diferentes tipos de configuracion en discos
 
 # Other
-candy crush 
-combinado con dados de mosntruos
+* candy crush combinado con dados de monstruos
+* jugar cuadro de maras
