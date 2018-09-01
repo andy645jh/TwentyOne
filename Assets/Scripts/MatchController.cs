@@ -6,11 +6,14 @@ public class MatchController : MonoBehaviour {
 
 	public Player discPlayer;
 	public Player discNPC;
+	public FollowDisc follower;
+
 	private Player _currentPlayer;
 
 	void Start()
 	{
 		discPlayer.setReferences(this);	
+		discNPC.setReferences(this);	
 	}
 
 	public void initGame () {
@@ -25,11 +28,13 @@ public class MatchController : MonoBehaviour {
 		}else{
 			_currentPlayer = discPlayer;
 		}
+		follower.setDisc(_currentPlayer);
 		_currentPlayer.initTurn();
 	}
 
 	private void selectFirstPlayer(){
 		_currentPlayer = discPlayer;
+		follower.setDisc(_currentPlayer);
 	}
 	
 	void Update () {

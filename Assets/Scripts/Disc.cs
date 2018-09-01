@@ -76,27 +76,17 @@ public class Disc : Player {
 		}
 		
     }
-
-	void reset(){
-		gameObject.SetActive(false);
-		_isPressDisc = false;
-		transform.position = _restartPos;
-		_rigi.velocity = Vector3.zero;
-		transform.eulerAngles = Vector3.zero;	
-		_matchController.changeTurn();
-	}
-
 	void OnTriggerEnter (Collider col)
     {    
 		Debug.Log("OnTriggerEnter: "+col.transform);	
 		if(col.transform.name == "point_3"){
-			hud.setPoint3();
+			hud.setPointPlayer(3);
 		}
 		else if(col.transform.name == "point_6"){
-			hud.setPoint6();
+			hud.setPointPlayer(6);
 		}
 		else if(col.transform.name == "point_9"){
-			hud.setPoint9();
+			hud.setPointPlayer(9);
 		}
     }
 }

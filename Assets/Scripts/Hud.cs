@@ -5,22 +5,21 @@ using UnityEngine.UI;
 
 public class Hud : MonoBehaviour {
 
-	public Text point3;
-	public Text point6;
-	public Text point9;
+	public Text txtPointsPlayer;
+	public Text txtPointsNpc;
 	public MenuController menu;
 	public SelectorController selectorLevel;
-	public MatchController matchController;
-	private float _pointVal3 = 0;
+	public MatchController matchController;	
+	public HudIngame hudIngame;
+	private float _pointPlayer = 0;
 	private float _pointVal6 = 0;
-	private float _pointVal9 = 0;
+	private float _pointNpc = 0;
 
 	private float _total;
 
 	void Start () {
-		point3.text = "0";
-		point6.text = "0";
-		point9.text = "0";
+		txtPointsPlayer.text = "0";		
+		txtPointsNpc.text = "0";
 	}
 	
 	public void clicStart(){
@@ -30,21 +29,17 @@ public class Hud : MonoBehaviour {
 
 	public void closeSelector(){
 		selectorLevel.gameObject.SetActive(false);
+		hudIngame.gameObject.SetActive(true);
 		matchController.initGame();
 	}
 
-	public void setPoint3(){
-		_pointVal3 += 3;
-		point3.text = _pointVal3.ToString();
+	public void setPointPlayer(float amount){
+		_pointPlayer += amount;
+		txtPointsPlayer.text = _pointPlayer.ToString();
 	}
 
-	public void setPoint6(){
-		_pointVal6 += 6;
-		point6.text = _pointVal6.ToString();
-	}
-
-	public void setPoint9(){
-		_pointVal9 += 9;
-		point9.text = _pointVal9.ToString();
+	public void setPointNpc(float amount){
+		_pointNpc += amount;
+		txtPointsNpc.text = _pointNpc.ToString();
 	}
 }

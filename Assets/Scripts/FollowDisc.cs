@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowDisc : MonoBehaviour {
 
-	public Disc disc;
+	private Player _currentDisc;	
 	private float _max = -10;
 	private float _min = -18;
 
@@ -13,9 +14,15 @@ public class FollowDisc : MonoBehaviour {
 	}
 		
 	void Update () {	
-		var posZ = disc.transform.position.z;
-		posZ = Mathf.Clamp(posZ,_min, _max);
-		//Debug.Log("PosZ: "+posZ);
+		if(_currentDisc==null) return;
+
+		var posZ = _currentDisc.transform.position.z;
+		posZ = Mathf.Clamp(posZ,_min, _max);		
 		transform.position = new Vector3(transform.position.x, transform.position.y, posZ);
 	}
+
+    internal void setDisc(Player currentPlayer)
+    {
+        _currentDisc = currentPlayer;
+    }
 }
