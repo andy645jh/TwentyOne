@@ -16,7 +16,7 @@ public class Disc : Player {
 	
 	public override void initTurn(){
 		_isTurn= true;
-		Debug.Log("Init");
+		Debug.Log("Init Disc");
 		gameObject.SetActive(true);
 	}
 
@@ -40,8 +40,10 @@ public class Disc : Player {
 				var finalDist = Vector3.Distance(transform.position, _initPos);
 				var dir = transform.position-_initPos;
 				var vel = Vector3.ClampMagnitude(dir.normalized / finalTime * 150, 1200);				
-				Debug.Log("Distance: "+finalDist);
+				Debug.Log("Velocidad: "+vel);
 				if(finalDist>0.2f){
+					Debug.Log("Aplico Velocidad");
+					//_rigi.constraints = RigidbodyConstraints.FreezePositionY;
 					_rigi.AddForce(vel);
 					_isMoving = true;								
 				}				
@@ -57,7 +59,7 @@ public class Disc : Player {
 		if(tempMag>_magnitud){
 			_magnitud = tempMag;			
 		}
-		//Debug.Log("Vel: "+_magnitud);
+		//Debug.Log("Magnitud: "+tempMag);
 
 		if(Vector3.Magnitude(_rigi.velocity)==0 && _isMoving){			
 			_isMoving = false;

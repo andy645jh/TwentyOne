@@ -17,8 +17,10 @@ ModelImporter:
     2100000: No Name
     2300000: Cylinder
     2300002: Cylinder.001
+    2300004: //RootNode
     3300000: Cylinder
     3300002: Cylinder.001
+    3300004: //RootNode
     4300000: Cylinder
     4300002: Cylinder.001
     10800000: Lamp
@@ -54,8 +56,8 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
-    meshCompression: 0
+    globalScale: 0.25
+    meshCompression: 1
     addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
