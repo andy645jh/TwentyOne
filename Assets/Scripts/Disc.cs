@@ -24,6 +24,10 @@ public class Disc : Player {
 		if(!_isTurn) return;
 
 		Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+		if(Input.GetMouseButton(0)){
+			Debug.DrawRay(ray.origin, ray.direction*100, Color.red);
+		}
+
 		if(Input.GetMouseButtonDown(0) && !_isMoving){			
 			if (Physics.Raycast(ray.origin, ray.direction*100, out _rayHit, 100) && _rayHit.transform.CompareTag("Disc"))
 			{
@@ -39,7 +43,7 @@ public class Disc : Player {
 				var finalTime = Time.time-_timeInit;
 				var finalDist = Vector3.Distance(transform.position, _initPos);
 				var dir = transform.position-_initPos;
-				var vel = Vector3.ClampMagnitude(dir.normalized / finalTime * 150, 1200);				
+				var vel = Vector3.ClampMagnitude(dir.normalized * finalDist * 500, 1200);				
 				Debug.Log("Velocidad: "+vel);
 				if(finalDist>0.2f){
 					Debug.Log("Aplico Velocidad");
