@@ -44,10 +44,9 @@ public class Disc : Player {
 				var finalDist = Vector3.Distance(transform.position, _initPos);
 				var dir = transform.position-_initPos;
 				var vel = Vector3.ClampMagnitude(dir.normalized * finalDist * 500, 1200);				
+				Debug.Log("Final Dist: "+finalDist);
 				Debug.Log("Velocidad: "+vel);
-				if(finalDist>0.2f){
-					Debug.Log("Aplico Velocidad");
-					//_rigi.constraints = RigidbodyConstraints.FreezePositionY;
+				if(finalDist>0.2f){						
 					_rigi.AddForce(vel);
 					_isMoving = true;								
 				}				

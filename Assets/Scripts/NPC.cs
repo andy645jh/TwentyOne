@@ -31,9 +31,20 @@ public class NPC : Player {
 	{		
 		if(!_isTurn) return;
 		if(!_isMoving){
-			Debug.Log("NPC Move");
-			var dir = Vector3.forward * 1000;
-			_rigi.AddForce(dir);
+			var angleGrades = Random.Range(-20,20);
+			//angleGrades =0;
+			if(angleGrades<0){
+				angleGrades = 360 + angleGrades;
+			}
+			Debug.Log("Angle: "+angleGrades);
+			var angle = Mathf.Deg2Rad * angleGrades;			
+			
+			var x = Vector3.forward.x * Mathf.Cos(angle) + Vector3.forward.z * Mathf.Sin(angle);
+			var z = -Vector3.forward.x * Mathf.Sin(angle) + Vector3.forward.z * Mathf.Cos(angle);
+			var dir = Vector3.Normalize(new Vector3(x,0,z));
+			
+			var force = dir * 1000;
+			_rigi.AddForce(force);
 			_isMoving = true;
 		}		
 	}
