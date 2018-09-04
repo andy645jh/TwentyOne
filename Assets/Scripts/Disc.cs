@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Disc : Player {
 
-
+	public Text sensi; 
+	public void adjustSensibility(float val){
+		if(_sensibility<100) _sensibility += val;
+		sensi.text = _sensibility.ToString();
+	}
     void Awake()
 	{
+		sensi.text = _sensibility.ToString();
 		_rigi = GetComponent<Rigidbody>();
 		_mainCamera = Camera.main;
 		_restartPos = transform.position;
@@ -43,7 +49,7 @@ public class Disc : Player {
 				var finalTime = Time.time-_timeInit;
 				var finalDist = Vector3.Distance(transform.position, _initPos);
 				var dir = transform.position-_initPos;
-				var vel = Vector3.ClampMagnitude(dir.normalized * finalDist * 500, 1200);				
+				var vel = Vector3.ClampMagnitude(dir.normalized * finalDist * 10 * _sensibility, 1000);				
 				Debug.Log("Final Dist: "+finalDist);
 				Debug.Log("Velocidad: "+vel);
 				if(finalDist>0.2f){						

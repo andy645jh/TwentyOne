@@ -23,11 +23,11 @@ public class MatchController : MonoBehaviour {
 	
 	public void changeTurn(){
 		_currentPlayer.finishTurn();
-		if(_currentPlayer == discPlayer){			
+		/*if(_currentPlayer == discPlayer){			
 			_currentPlayer = discNPC;
 		}else{
 			_currentPlayer = discPlayer;
-		}
+		}*/
 		follower.setDisc(_currentPlayer);
 		_currentPlayer.initTurn();
 	}
@@ -35,9 +35,5 @@ public class MatchController : MonoBehaviour {
 	private void selectFirstPlayer(){
 		_currentPlayer = discPlayer;
 		follower.setDisc(_currentPlayer);
-	}
-	
-	void Update () {
-		
-	}
+	}	
 }
