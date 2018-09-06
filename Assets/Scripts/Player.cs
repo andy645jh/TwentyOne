@@ -19,7 +19,7 @@ public class Player : MonoBehaviour {
     protected bool _isMoving;
 	protected bool _isTurn;
 	
-	protected float _sensibility = 15;
+	protected float _sensibility = 45;
 	public virtual void initTurn () {
 		
 	}
