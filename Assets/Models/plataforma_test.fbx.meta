@@ -1,59 +1,46 @@
 fileFormatVersion: 2
-guid: 85f0375065885634ebbb6e66ce5aaf7f
+guid: 3e0f27fdee2699949bd9b8cba310e7a4
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Camera
+    100000: Cube
     100002: Cylinder
     100004: //RootNode
-    100006: Lamp
-    100008: Cylinder.001
-    100010: Cube
-    100012: CylinderDup
-    100014: Disc
-    100016: Sphere
-    100018: Sphere.001
-    100020: platform
-    400000: Camera
+    100006: Cube.001
+    100008: CylinderDup
+    100010: Sphere
+    100012: Disc
+    100014: Sphere.001
+    400000: Cube
     400002: Cylinder
     400004: //RootNode
-    400006: Lamp
-    400008: Cylinder.001
-    400010: Cube
-    400012: CylinderDup
-    400014: Disc
-    400016: Sphere
-    400018: Sphere.001
-    400020: platform
-    2000000: Camera
+    400006: Cube.001
+    400008: CylinderDup
+    400010: Sphere
+    400012: Disc
+    400014: Sphere.001
     2100000: No Name
-    2300000: Cylinder
-    2300002: Cylinder.001
-    2300004: //RootNode
-    2300006: Cube
-    2300008: CylinderDup
+    2300000: Cube
+    2300002: Cylinder
+    2300004: Cube.001
+    2300006: CylinderDup
+    2300008: Sphere
     2300010: Disc
-    2300012: Sphere
-    2300014: Sphere.001
-    2300016: platform
-    3300000: Cylinder
-    3300002: Cylinder.001
-    3300004: //RootNode
-    3300006: Cube
-    3300008: CylinderDup
+    2300012: Sphere.001
+    3300000: Cube
+    3300002: Cylinder
+    3300004: Cube.001
+    3300006: CylinderDup
+    3300008: Sphere
     3300010: Disc
-    3300012: Sphere
-    3300014: Sphere.001
-    3300016: platform
-    4300000: Cylinder
-    4300002: Cylinder.001
+    3300012: Sphere.001
+    4300000: Cube
+    4300002: Cylinder
     4300004: Sphere
-    4300006: Disc
+    4300006: Cube.001
     4300008: CylinderDup
-    4300010: Cube
-    4300012: Sphere.001
-    4300014: platform
-    10800000: Lamp
+    4300010: Sphere.001
+    4300012: Disc
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
@@ -86,8 +73,8 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.25
-    meshCompression: 1
+    globalScale: 1
+    meshCompression: 0
     addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
