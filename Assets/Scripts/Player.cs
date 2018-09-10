@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
+	public SpriteRenderer flecha;
 	protected Rigidbody _rigi;
 	protected RaycastHit _rayHit;
 	protected Camera _mainCamera;

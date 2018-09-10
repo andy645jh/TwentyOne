@@ -5,7 +5,7 @@ using UnityEngine;
 public class HudIngame : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		
 	}
 	

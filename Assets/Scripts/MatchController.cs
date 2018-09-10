@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MatchController : MonoBehaviour {
-
+	public GameObject canvas;
 	public Player discPlayer;
 	public Player discNPC;
 	public FollowDisc follower;
 
 	private Player _currentPlayer;
 
+	void Awake () {
+		canvas.SetActive(true);
+	}
+	
 	void Start()
 	{
 		discPlayer.setReferences(this);	

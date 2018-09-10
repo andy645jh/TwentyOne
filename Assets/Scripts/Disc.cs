@@ -26,20 +26,19 @@ public class Disc : Player {
 		gameObject.SetActive(true);
 	}
 
+	private Vector3 _posInitArrow;
+	private bool _moveArrow;
 	void Update () {			
 		if(!_isTurn) return;
 
-		Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-		if(Input.GetMouseButton(0)){
-			Debug.DrawRay(ray.origin, ray.direction*100, Color.red);
-		}
+		Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);	
 
 		if(Input.GetMouseButtonDown(0) && !_isMoving){			
 			if (Physics.Raycast(ray.origin, ray.direction*100, out _rayHit, 100) && _rayHit.transform.CompareTag("Disc"))
 			{
 				_isPressDisc = true;
 				_timeInit = Time.time;
-				_initPos = transform.position;	
+				_initPos = transform.position;					
 				//Debug.Log("Update: "+_rayHit.point);			
 			}
 		}
@@ -56,7 +55,7 @@ public class Disc : Player {
 					_rigi.AddForce(vel);
 					_isMoving = true;								
 				}				
-			}
+			}			
 			_isPressDisc = false;
 		}
 
@@ -64,6 +63,7 @@ public class Disc : Player {
 			Debug.DrawRay(ray.origin, ray.direction*100, Color.blue);				
 			transform.position = new Vector3(ray.origin.x,transform.position.y,ray.origin.z);			
 		}
+
 		var tempMag = Vector3.Magnitude(_rigi.velocity);
 		if(tempMag>_magnitud){
 			_magnitud = tempMag;			

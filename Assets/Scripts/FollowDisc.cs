@@ -6,8 +6,8 @@ using UnityEngine;
 public class FollowDisc : MonoBehaviour {
 
 	private Player _currentDisc;	
-	private float _max = -10;
-	private float _min = -18;
+	private float _max = 8;
+	private float _min = 0;
 
 	void Start () {
 		
