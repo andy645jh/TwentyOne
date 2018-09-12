@@ -27,41 +27,63 @@ public class Arrow : MonoBehaviour {
 	}
 	void Start () {
 		_initPos = transform.position;
+		sphereInit.transform.position = _initPos;
+		line.SetPosition(0,_initPos);
 	}
 	
-	// Update is called once per frame
-	void Update () {	
-					
+	private bool _first;
+	void drawSphere(){
+
+		if(_first) return;
+
 		Debug.DrawRay(_mainCamera.transform.position, (transform.position-_mainCamera.transform.position)*100, Color.yellow);	
 		RaycastHit hit;   		     
         if(Physics.Raycast(_mainCamera.transform.position, (transform.position-_mainCamera.transform.position)*100, out hit))
 		{
-			if(hit.transform.CompareTag("Plane")){
+			if(hit.transform.CompareTag("Disc")){
+				_first = true;
 				Debug.Log("Tranform: " + hit.transform);				
 				_posInitArrow = hit.transform.position;
+				_posInitArrow.y = _initPos.y;
 				sphereInit.transform.position = _posInitArrow;
 				line.SetPosition(0,_posInitArrow);
 			}			
-		}        	
-		
-		Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);			
-		if(Input.GetMouseButton(0) && _isDown){		
-			Debug.Log("Origin: "+ray.origin);
-			line.SetPosition(1,ray.origin);
-			Vector3 dir = ray.origin-_posInitArrow;
-			float angle = Vector3.Angle(_posInitArrow,dir);	
-			//calculate rotation			
-			Debug.Log("Angle: "+angle);
-			sphereFinal.transform.position = ray.origin;
-			flecha.transform.eulerAngles = new Vector3(flecha.transform.eulerAngles.x, angle, 0);
+		}     
+	}
+
+	// Update is called once per frame
+	void Update () {	
+		//drawSphere();
+		RaycastHit hit;   	
+		Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);		
+		Debug.DrawRay(ray.origin, ray.direction*100, Color.yellow);			
+		if (Physics.Raycast(ray.origin, ray.direction*100, out hit, 100) && hit.transform.name == "platform")
+		{			
+			Debug.Log("Tranform Update: " + hit.transform);		
+
+			if(Input.GetMouseButton(0) && _isDown){		
+				Debug.Log("Origin: "+ray);
+				var pos = hit.point;
+				pos.y = _initPos.y;
+				line.SetPosition(1,pos);
+				Vector3 dir = ray.origin-_posInitArrow;
+				float angle = Vector3.Angle(_posInitArrow,dir);	
+				//calculate rotation			
+				Debug.Log("Angle: "+angle);
+				sphereFinal.position = pos;
+				//flecha.transform.localEulerAngles = new Vector3(flecha.transform.localEulerAngles.x, angle, 0);
+			}
+
+			if(Input.GetMouseButtonDown(0)){								
+				_isDown = true;						
+				flecha.enabled = true;
+				//sphere.position = new Vector3(ray.origin.x, transform.position.y, ray.origin.z);
+				sphereFinal.position = hit.point;
+				line.SetPosition(1,hit.point);
+			}
 		}
 
-		if(Input.GetMouseButtonDown(0)){								
-			_isDown = true;						
-			flecha.enabled = true;
-			//sphere.position = new Vector3(ray.origin.x, transform.position.y, ray.origin.z);
-			sphereInit.position = ray.origin;
-		}
+		
 		
 		if(Input.GetMouseButtonUp(0)){
 			_isDown = false;
