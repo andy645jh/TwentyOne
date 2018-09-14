@@ -28,11 +28,12 @@ public class Arrow : MonoBehaviour {
 	void Start () {
 		_initPos = transform.position;
 		sphereInit.transform.position = _initPos;
+		line.enabled = false;
 		line.SetPosition(0,_initPos);
 	}
 	
 	private bool _first;
-	void drawSphere(){
+	/*void drawSphere(){
 
 		if(_first) return;
 
@@ -49,7 +50,7 @@ public class Arrow : MonoBehaviour {
 				line.SetPosition(0,_posInitArrow);
 			}			
 		}     
-	}
+	}*/
 
 	// Update is called once per frame
 	void Update () {	
@@ -59,24 +60,37 @@ public class Arrow : MonoBehaviour {
 		Debug.DrawRay(ray.origin, ray.direction*100, Color.yellow);			
 		if (Physics.Raycast(ray.origin, ray.direction*100, out hit, 100) && hit.transform.name == "platform")
 		{			
-			Debug.Log("Tranform Update: " + hit.transform);		
+			//Debug.Log("Tranform Update: " + hit.transform);		
 
-			if(Input.GetMouseButton(0) && _isDown){		
-				Debug.Log("Origin: "+ray);
+			if(Input.GetMouseButton(0) && _isDown){						
 				var pos = hit.point;
-				pos.y = _initPos.y;
-				line.SetPosition(1,pos);
-				Vector3 dir = ray.origin-_posInitArrow;
-				float angle = Vector3.Angle(_posInitArrow,dir);	
-				//calculate rotation			
-				Debug.Log("Angle: "+angle);
-				sphereFinal.position = pos;
+				pos.y = _initPos.y;								
+				Debug.Log("Pos: "+pos);
+				float distance = Vector3.Distance(_initPos, pos);
+				
+				if(distance> 4.1f){
+					Vector3 dir = Vector3.Normalize(pos-_initPos) * 4;	
+					Debug.Log("Distance 1: "+Vector3.Distance(_initPos, dir));
+					Debug.Log("Dir: "+dir);
+					dir.x += _initPos.x;
+					dir.y = _initPos.y;
+					dir.z += _initPos.z;
+					sphereFinal.position = dir;
+					line.SetPosition(1,dir);
+				}else{
+					Debug.Log("Distance 2: "+distance);
+					sphereFinal.position = pos;
+					line.SetPosition(1,pos);
+				}
+				
+				
 				//flecha.transform.localEulerAngles = new Vector3(flecha.transform.localEulerAngles.x, angle, 0);
 			}
 
 			if(Input.GetMouseButtonDown(0)){								
 				_isDown = true;						
-				flecha.enabled = true;
+				//flecha.enabled = true;
+				line.enabled = true;
 				//sphere.position = new Vector3(ray.origin.x, transform.position.y, ray.origin.z);
 				sphereFinal.position = hit.point;
 				line.SetPosition(1,hit.point);
@@ -88,6 +102,7 @@ public class Arrow : MonoBehaviour {
 		if(Input.GetMouseButtonUp(0)){
 			_isDown = false;
 			_isMoving = false;			
+			line.enabled = false;
 			//flecha.enabled = false;			
 		}
 	}
