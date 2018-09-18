@@ -2,22 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arrow : MonoBehaviour {
+public class Arrow : Player {
 
 	private Vector3 _posInitArrow;
 	private bool _moveArrow;
 	private bool _isDown;
-	private bool _isMoving;
-	private Vector3 _initPos;
-	public SpriteRenderer flecha;
-    public Camera _mainCamera { get; private set; }
 	public Transform sphereInit;
 	public Transform sphereFinal;
 	public LineRenderer line;
-	
     void Awake()
 	{
 		_mainCamera = Camera.main;
+		_rigi = GetComponent<Rigidbody>();
 		/*sensi.text = _sensibility.ToString();
 		_rigi = GetComponent<Rigidbody>();
 		
@@ -25,36 +21,21 @@ public class Arrow : MonoBehaviour {
 		_startPos = _mainCamera.transform.position;
 		gameObject.SetActive(false);*/
 	}
-	void Start () {
+	
+	public override void initTurn(){
+		
 		_initPos = transform.position;
 		sphereInit.transform.position = _initPos;
 		line.enabled = false;
-		line.SetPosition(0,_initPos);
+		line.SetPosition(0,_initPos);		
+		gameObject.SetActive(true);
+		_isTurn= true;
 	}
 	
-	private bool _first;
-	/*void drawSphere(){
-
-		if(_first) return;
-
-		Debug.DrawRay(_mainCamera.transform.position, (transform.position-_mainCamera.transform.position)*100, Color.yellow);	
-		RaycastHit hit;   		     
-        if(Physics.Raycast(_mainCamera.transform.position, (transform.position-_mainCamera.transform.position)*100, out hit))
-		{
-			if(hit.transform.CompareTag("Disc")){
-				_first = true;
-				Debug.Log("Tranform: " + hit.transform);				
-				_posInitArrow = hit.transform.position;
-				_posInitArrow.y = _initPos.y;
-				sphereInit.transform.position = _posInitArrow;
-				line.SetPosition(0,_posInitArrow);
-			}			
-		}     
-	}*/
-
-	// Update is called once per frame
 	void Update () {	
-		//drawSphere();
+		
+		if(!_isTurn) return;
+		Debug.Log("Ray");
 		RaycastHit hit;   	
 		Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);		
 		Debug.DrawRay(ray.origin, ray.direction*100, Color.yellow);			
@@ -95,15 +76,50 @@ public class Arrow : MonoBehaviour {
 				sphereFinal.position = hit.point;
 				line.SetPosition(1,hit.point);
 			}
+		}	
+		
+		if(Input.GetMouseButtonUp(0) && _isDown){
+			Debug.Log("Update");
+			_isDown = false;
+			//_isMoving = true;			
+			line.enabled = false;
+			var dir = line.GetPosition(1)- line.GetPosition(0);
+			var finalDist = Vector3.Distance(line.GetPosition(1), line.GetPosition(0));
+			var vel = Vector3.ClampMagnitude(dir.normalized * finalDist * 10 * _sensibility, 1000);
+			_rigi.AddForce(vel);					
 		}
 
-		
-		
-		if(Input.GetMouseButtonUp(0)){
-			_isDown = false;
-			_isMoving = false;			
-			line.enabled = false;
-			//flecha.enabled = false;			
+		//esto hay que revisarlo xq aun genera error en el reset
+		if(Vector3.Magnitude(_rigi.velocity)>0) _isMoving = true;
+
+		if(Vector3.Magnitude(_rigi.velocity)==0 && _isMoving){			
+			_isMoving = false;
+			reset();
 		}
 	}
+
+	void OnCollisionEnter (Collision col)
+    {
+        if(col.transform.CompareTag("Border")){
+			_isPressDisc = false;
+		}
+
+		if(col.transform.CompareTag("Death")){			
+			reset();		
+		}
+		
+    }
+	void OnTriggerEnter (Collider col)
+    {    
+		Debug.Log("OnTriggerEnter: "+col.transform);	
+		if(col.transform.name == "point_3"){
+			hud.setPointPlayer(3);
+		}
+		else if(col.transform.name == "point_6"){
+			hud.setPointPlayer(6);
+		}
+		else if(col.transform.name == "point_9"){
+			hud.setPointPlayer(9);
+		}
+    }
 }

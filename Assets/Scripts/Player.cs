@@ -22,7 +22,7 @@ public class Player : MonoBehaviour {
 	
 	protected float _sensibility = 45;
 	public virtual void initTurn () {
-		
+		Debug.Log("No se ha implementado InitTurn");
 	}
 		
 	public virtual void finishTurn () {
@@ -32,7 +32,6 @@ public class Player : MonoBehaviour {
 	public void setReferences (MatchController match) {
 		_matchController = match;
 	}
-
 	
 	protected void reset(){
 		gameObject.SetActive(false);

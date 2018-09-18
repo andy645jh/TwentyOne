@@ -22,6 +22,7 @@ public class MatchController : MonoBehaviour {
 
 	public void initGame () {
 		selectFirstPlayer();
+		Debug.Log("Current Player: "+_currentPlayer);
 		_currentPlayer.initTurn();
 	}
 	
@@ -33,6 +34,7 @@ public class MatchController : MonoBehaviour {
 			_currentPlayer = discPlayer;
 		}*/
 		follower.setDisc(_currentPlayer);
+		
 		_currentPlayer.initTurn();
 	}
 
