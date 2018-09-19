@@ -2965,20 +2965,6 @@ MonoBehaviour:
   sphereInit: {fileID: 544445196}
   sphereFinal: {fileID: 1942361971}
   line: {fileID: 544445197}
---- !u!114 &959826593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 959826590}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe0815bd2a21f9e459c795edcef6ff6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flecha: {fileID: 2034055858}
-  hud: {fileID: 925791665}
-  sensi: {fileID: 636905814}
 --- !u!64 &959826594
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3090,7 +3076,7 @@ TrailRenderer:
     numCapVertices: 0
     alignment: 0
     textureMode: 0
-    generateLightingData: 1
+    generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
@@ -5303,7 +5289,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &2036032845
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ public class Arrow : Player {
 	}
 	
 	public override void initTurn(){
-		
+		_restartPos = transform.position;
 		_initPos = transform.position;
 		sphereInit.transform.position = _initPos;
 		line.enabled = false;
@@ -78,10 +78,15 @@ public class Arrow : Player {
 			}
 		}	
 		
+		if(Vector3.Magnitude(_rigi.velocity)==0 && _isMoving){			
+			_isMoving = false;
+			reset();
+		}
+
 		if(Input.GetMouseButtonUp(0) && _isDown){
 			Debug.Log("Update");
 			_isDown = false;
-			//_isMoving = true;			
+			_isMoving = true;			
 			line.enabled = false;
 			var dir = line.GetPosition(1)- line.GetPosition(0);
 			var finalDist = Vector3.Distance(line.GetPosition(1), line.GetPosition(0));
@@ -90,12 +95,7 @@ public class Arrow : Player {
 		}
 
 		//esto hay que revisarlo xq aun genera error en el reset
-		if(Vector3.Magnitude(_rigi.velocity)>0) _isMoving = true;
-
-		if(Vector3.Magnitude(_rigi.velocity)==0 && _isMoving){			
-			_isMoving = false;
-			reset();
-		}
+		//if(Vector3.Magnitude(_rigi.velocity)>0) _isMoving = true;		
 	}
 
 	void OnCollisionEnter (Collision col)
