@@ -35,7 +35,7 @@ public class Arrow : Player {
 	void Update () {	
 		
 		if(!_isTurn) return;
-		Debug.Log("Ray");
+		//Debug.Log("Ray");
 		RaycastHit hit;   	
 		Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);		
 		Debug.DrawRay(ray.origin, ray.direction*100, Color.yellow);			
@@ -46,12 +46,12 @@ public class Arrow : Player {
 			if(Input.GetMouseButton(0) && _isDown){						
 				var pos = hit.point;
 				pos.y = _initPos.y;								
-				Debug.Log("Pos: "+pos);
+				//Debug.Log("Pos: "+pos);
 				float distance = Vector3.Distance(_initPos, pos);
 				
 				if(distance> 4.1f){
 					Vector3 dir = Vector3.Normalize(pos-_initPos) * 4;	
-					Debug.Log("Distance 1: "+Vector3.Distance(_initPos, dir));
+					Debug.Log("Distance 1: "+distance);
 					Debug.Log("Dir: "+dir);
 					dir.x += _initPos.x;
 					dir.y = _initPos.y;
@@ -62,10 +62,7 @@ public class Arrow : Player {
 					Debug.Log("Distance 2: "+distance);
 					sphereFinal.position = pos;
 					line.SetPosition(1,pos);
-				}
-				
-				
-				//flecha.transform.localEulerAngles = new Vector3(flecha.transform.localEulerAngles.x, angle, 0);
+				}				
 			}
 
 			if(Input.GetMouseButtonDown(0)){								
@@ -76,23 +73,26 @@ public class Arrow : Player {
 				sphereFinal.position = hit.point;
 				line.SetPosition(1,hit.point);
 			}
-		}	
-		
-		if(Vector3.Magnitude(_rigi.velocity)==0 && _isMoving){			
+
+			if(Input.GetMouseButtonUp(0) && _isDown){
+				
+				_isDown = false;
+				_isMoving = true;			
+				line.enabled = false;
+				var dir = line.GetPosition(1)- line.GetPosition(0);
+				var finalDist = Vector3.Distance(line.GetPosition(1), line.GetPosition(0));
+				var vel = Vector3.ClampMagnitude(dir.normalized * finalDist * 10 * _sensibility, 20);
+				//_rigi.AddForce(vel);	
+				_rigi.velocity = vel;
+				Debug.Log("Velocidad: "+_rigi.velocity);				
+			}
+
+			if(Vector3.Magnitude(_rigi.velocity)==0 && _isMoving){	
+			Debug.Log("Reset");			
 			_isMoving = false;
 			reset();
 		}
-
-		if(Input.GetMouseButtonUp(0) && _isDown){
-			Debug.Log("Update");
-			_isDown = false;
-			_isMoving = true;			
-			line.enabled = false;
-			var dir = line.GetPosition(1)- line.GetPosition(0);
-			var finalDist = Vector3.Distance(line.GetPosition(1), line.GetPosition(0));
-			var vel = Vector3.ClampMagnitude(dir.normalized * finalDist * 10 * _sensibility, 1000);
-			_rigi.AddForce(vel);					
-		}
+		}		
 
 		//esto hay que revisarlo xq aun genera error en el reset
 		//if(Vector3.Magnitude(_rigi.velocity)>0) _isMoving = true;		
